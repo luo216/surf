@@ -9,6 +9,13 @@ static char *cookiefile     = "~/.surf/cookies.txt";
 static char *historyfile    = "~/.surf/history.txt";
 
 
+static SearchEngine searchengines[] = {
+	{ " ", "https://duckduckgo.com/?q=%s" },
+	{ "g ", "https://google.com/search?q=%s" },
+  { "b ", "https://bing.com/search?q=%s" },
+  { "w ", "https://en.wikipedia.org/w/index.php?title=Special:Search&search=%s" },
+};
+
 /* Webkit default features */
 /* Highest priority value will be used.
  * Default parameters are priority 0
