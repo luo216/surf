@@ -355,9 +355,10 @@ setup(void)
 	curconfig = defconfig;
 
 	/* dirs and files */
-	cookiefile = buildfile(cookiefile);
-	scriptfile = buildfile(scriptfile);
-	certdir    = buildpath(certdir);
+	cookiefile  = buildfile(cookiefile);
+	historyfile = buildfile(historyfile);
+	scriptfile  = buildfile(scriptfile);
+	certdir     = buildpath(certdir);
 	if (curconfig[Ephemeral].val.i)
 		cachedir = NULL;
 	else
@@ -597,6 +598,7 @@ loaduri(Client *c, const Arg *a)
 	} else {
 		webkit_web_view_load_uri(c->view, url);
 		updatetitle(c);
+		updatehistory(url);
 	}
 
 	g_free(url);
@@ -666,6 +668,20 @@ updatetitle(Client *c)
 	} else {
 		gtk_window_set_title(GTK_WINDOW(c->win), name);
 	}
+}
+
+void
+updatehistory(const char *url)
+{
+	FILE *f;
+	f = fopen(historyfile, "a+");
+
+	char timestamp[20];
+	time_t now = time (0);
+	strftime (timestamp, 20, "%Y-%m-%dT%H:%M:%S", localtime (&now));
+
+	fprintf(f, "%s %s\n", timestamp, url);
+	fclose(f);
 }
 
 void
@@ -1097,6 +1113,7 @@ cleanup(void)
 	close(spair[0]);
 	close(spair[1]);
 	g_free(cookiefile);
+	g_free(historyfile);
 	g_free(scriptfile);
 	g_free(stylefile);
 	g_free(cachedir);
