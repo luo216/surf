@@ -14,6 +14,7 @@ static SearchEngine searchengines[] = {
 	{ "g ", "https://google.com/search?q=%s" },
   { "b ", "https://bing.com/search?q=%s" },
   { "w ", "https://en.wikipedia.org/w/index.php?title=Special:Search&search=%s" },
+  { "t ", "https://translate.google.com/?hl=zh-CN&sl=en&tl=zh-CN&text=%s&op=translate"},
 };
 
 /* Webkit default features */
