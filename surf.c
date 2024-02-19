@@ -273,6 +273,7 @@ static const char *useragent;
 static Parameter *curconfig;
 static int modparams[ParameterLast];
 static int spair[2];
+static char tmp_history_url[256];
 char *argv0;
 
 static ParamName loadtransient[] = {
@@ -615,7 +616,6 @@ loaduri(Client *c, const Arg *a)
 	} else {
 		webkit_web_view_load_uri(c->view, url);
 		updatetitle(c);
-		updatehistory(url);
 	}
 
 	g_free(url);
@@ -1601,6 +1601,11 @@ progresschanged(WebKitWebView *v, GParamSpec *ps, Client *c)
 	c->progress = webkit_web_view_get_estimated_load_progress(c->view) *
 	              100;
 	updatetitle(c);
+  const char *uri = geturi(c);
+  if (strcmp(tmp_history_url, uri)) {
+    strcpy(tmp_history_url, uri);
+	  updatehistory(uri);
+  }
 }
 
 void
