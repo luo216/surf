@@ -7,6 +7,7 @@ static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
 static char *historyfile    = "~/.surf/history.txt";
 static char *dldir          = "~/Downloads/";
+static char *bilidir        = "~/.surf/bilidir/";
 static char *dlstatus       = "~/.surf/dlstatus/";
 static char *scriptfiles[]  = {
 	"~/.surf/script.js",
@@ -151,6 +152,22 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
         } \
 }
 
+/* BILIBILI VIDEO PLAY(URI) */
+#define BILIPLAY(u) {\
+        .v = (const char *[]){ "st", "-e", "/bin/sh", "-c", \
+             "rm -rf ~/.surf/bilidir/* " \
+             "&& echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
+             "| grep https://www.bilibili.com/video " \
+             "| awk -F '/' '{print $5 }' " \
+             "| awk -F '?' '{print $1 }' " \
+             "> ~/.surf/bilidir/url.txt " \
+             "&& cd ~/.surf/bilidir/ " \
+             "&& BBDown -dd $(cat ~/.surf/bilidir/url.txt)" \
+             "&& mpv ./*", \
+             winid, u, NULL \
+        } \
+}
+
 /* styles */
 /*
  * The iteration will stop at the first match, beginning at the beginning of
@@ -184,6 +201,7 @@ static Key keys[] = {
 	{ MODKEY,                GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
   { MODKEY|GDK_SHIFT_MASK, GDK_KEY_h,      spawn,      SETURI("_SURF_URI", "_SURF_GO", PROMPT_HIST) },
  	{ MODKEY,                GDK_KEY_m,      spawn,      BM_ADD("_SURF_URI") },
+ 	{ MODKEY,                GDK_KEY_w,      spawn,      BILIPLAY("_SURF_URI") },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },

@@ -374,6 +374,7 @@ setup(void)
 	certdir     = buildpath(certdir);
 	dlstatus   = buildpath(dlstatus);
 	dldir      = buildpath(dldir);
+  bilidir    = buildpath(bilidir);
 	for (i = 0; i < LENGTH(scriptfiles); i++) {
 		scriptfiles[i] = buildfile(scriptfiles[i]);
 	}
