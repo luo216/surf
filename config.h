@@ -10,8 +10,7 @@ static char *dldir          = "~/Downloads/";
 static char *bilidir        = "~/.surf/bilidir/";
 static char *dlstatus       = "~/.surf/dlstatus/";
 static char *scriptfiles[]  = {
-	"~/.surf/script.js",
-	"~/.surf/test.js",
+  "~/.surf/translate.js",
 };
 
 
