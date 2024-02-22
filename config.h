@@ -167,6 +167,15 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
         } \
 }
 
+/* URL to XCLIP */
+#define XCLIPURL(u) {\
+        .v = (const char *[]){ "/bin/sh", "-c", \
+             "echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
+             "| xclip -sel clip ", \
+             winid, u, NULL \
+        } \
+}
+
 /* styles */
 /*
  * The iteration will stop at the first match, beginning at the beginning of
@@ -201,6 +210,7 @@ static Key keys[] = {
   { MODKEY|GDK_SHIFT_MASK, GDK_KEY_h,      spawn,      SETURI("_SURF_URI", "_SURF_GO", PROMPT_HIST) },
  	{ MODKEY,                GDK_KEY_m,      spawn,      BM_ADD("_SURF_URI") },
  	{ MODKEY,                GDK_KEY_w,      spawn,      BILIPLAY("_SURF_URI") },
+ 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_m,      spawn,      XCLIPURL("_SURF_URI") },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
