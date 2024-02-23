@@ -375,6 +375,7 @@ setup(void)
 	dlstatus   = buildpath(dlstatus);
 	dldir      = buildpath(dldir);
   bilidir    = buildpath(bilidir);
+  audiodir   = buildpath(audiodir);
 	for (i = 0; i < LENGTH(scriptfiles); i++) {
 		scriptfiles[i] = buildfile(scriptfiles[i]);
 	}

@@ -8,6 +8,7 @@ static char *cookiefile     = "~/.surf/cookies.txt";
 static char *historyfile    = "~/.surf/history.txt";
 static char *dldir          = "~/Downloads/";
 static char *bilidir        = "~/.surf/bilidir/";
+static char *audiodir       = "~/Audios/";
 static char *dlstatus       = "~/.surf/dlstatus/";
 static char *scriptfiles[]  = {
   "~/.surf/translate.js",
@@ -167,6 +168,20 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
         } \
 }
 
+/* BILIBILI Audio-only download for BBDown */
+#define BILIAUDIO(u) {\
+        .v = (const char *[]){ "st", "-e", "/bin/sh", "-c", \
+             "echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
+             "| grep https://www.bilibili.com/video " \
+             "| awk -F '/' '{print $5 }' " \
+             "| awk -F '?' '{print $1 }' " \
+             "> ~/.surf/bilidir/url.txt " \
+             "&& cd ~/Audios/ " \
+             "&& BBDown --audio-only $(cat ~/.surf/bilidir/url.txt)", \
+             winid, u, NULL \
+        } \
+}
+
 /* URL to XCLIP */
 #define XCLIPURL(u) {\
         .v = (const char *[]){ "/bin/sh", "-c", \
@@ -211,6 +226,7 @@ static Key keys[] = {
   { MODKEY|GDK_SHIFT_MASK, GDK_KEY_h,      spawn,      SETURI("_SURF_URI", "_SURF_GO", PROMPT_HIST) },
  	{ MODKEY,                GDK_KEY_m,      spawn,      BM_ADD("_SURF_URI") },
  	{ MODKEY,                GDK_KEY_w,      spawn,      BILIPLAY("_SURF_URI") },
+ 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_w,      spawn,      BILIAUDIO("_SURF_URI") },
  	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_m,      spawn,      XCLIPURL("_SURF_URI") },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
