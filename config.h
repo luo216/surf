@@ -8,7 +8,7 @@ static char *cookiefile     = "~/.surf/cookies.txt";
 static char *historyfile    = "~/.surf/history.txt";
 static char *dldir          = "~/Downloads/";
 static char *bilidir        = "~/.surf/bilidir/";
-static char *audiodir       = "~/Audios/";
+static char *audiodir       = "~/Music/";
 static char *dlstatus       = "~/.surf/dlstatus/";
 static char *scriptfiles[]  = {
   "~/.surf/translate.js",
@@ -176,7 +176,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
              "| awk -F '/' '{print $5 }' " \
              "| awk -F '?' '{print $1 }' " \
              "> ~/.surf/bilidir/url.txt " \
-             "&& cd ~/Audios/ " \
+             "&& cd ~/Music/ " \
              "&& BBDown --audio-only $(cat ~/.surf/bilidir/url.txt)", \
              winid, u, NULL \
         } \
@@ -292,4 +292,4 @@ static Button buttons[] = {
 	{ OnMedia,      MODKEY,         1,      clickexternplayer, { 0 },       1 },
 };
 
-#define HOMEPAGE "https://duckduckgo.com/"
+#define HOMEPAGE "~/.surf/surf-index/index.html"
