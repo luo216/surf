@@ -690,17 +690,21 @@ updatetitle(Client *c)
 }
 
 void
-updatehistory(const char *url)
+updatehistory(Client *c)
 {
-	FILE *f;
-	f = fopen(historyfile, "a+");
+  const char *uri = geturi(c);
+  if (strcmp(tmp_history_url, uri)) {
+    strcpy(tmp_history_url, uri);
+	  FILE *f;
+	  f = fopen(historyfile, "a+");
 
-	char timestamp[20];
-	time_t now = time (0);
-	strftime (timestamp, 20, "%Y-%m-%dT%H:%M:%S", localtime (&now));
+	  char timestamp[20];
+	  time_t now = time (0);
+	  strftime (timestamp, 20, "%Y-%m-%dT%H:%M:%S", localtime (&now));
 
-	fprintf(f, "%s %s\n", timestamp, url);
-	fclose(f);
+	  fprintf(f, "%s %s\n", timestamp, uri);
+	  fclose(f);
+  }
 }
 
 void
@@ -1603,11 +1607,7 @@ progresschanged(WebKitWebView *v, GParamSpec *ps, Client *c)
 	c->progress = webkit_web_view_get_estimated_load_progress(c->view) *
 	              100;
 	updatetitle(c);
-  const char *uri = geturi(c);
-  if (strcmp(tmp_history_url, uri)) {
-    strcpy(tmp_history_url, uri);
-	  updatehistory(uri);
-  }
+  updatehistory(c);
 }
 
 void
