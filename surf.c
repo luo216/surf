@@ -275,6 +275,7 @@ static Parameter *curconfig;
 static int modparams[ParameterLast];
 static int spair[2];
 static char tmp_history_url[256];
+static char tmp_title_name[256];
 char *argv0;
 
 static ParamName loadtransient[] = {
@@ -694,8 +695,9 @@ void
 updatehistory(Client *c,char *name)
 {
   const char *uri = geturi(c);
-  if (strcmp(tmp_history_url, uri)) {
+  if (strcmp(tmp_history_url, uri) && strcmp(tmp_title_name, name)) {
     strcpy(tmp_history_url, uri);
+    strcpy(tmp_title_name, name);
 	  FILE *f;
 	  f = fopen(historyfile, "a+");
 
