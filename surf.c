@@ -167,6 +167,7 @@ static const char *geturi(Client *c);
 static void setatom(Client *c, int a, const char *v);
 static const char *getatom(Client *c, int a);
 static void updatetitle(Client *c);
+static void updatehistory(Client *c, char *name);
 static void gettogglestats(Client *c);
 static void getpagestats(Client *c);
 static WebKitCookieAcceptPolicy cookiepolicy_get(void);
@@ -677,8 +678,10 @@ updatetitle(Client *c)
 
 		if (c->progress != 100)
 			title = g_strdup_printf("[%i%%] | %s", c->progress, name);
-		else
+		else{
 			title = g_strdup_printf("%s", name);
+      updatehistory(c,name);
+    }
 
 		gtk_window_set_title(GTK_WINDOW(c->win), title);
 		g_free(title);
@@ -688,7 +691,7 @@ updatetitle(Client *c)
 }
 
 void
-updatehistory(Client *c)
+updatehistory(Client *c,char *name)
 {
   const char *uri = geturi(c);
   if (strcmp(tmp_history_url, uri)) {
@@ -700,7 +703,7 @@ updatehistory(Client *c)
 	  time_t now = time (0);
 	  strftime (timestamp, 20, "%Y-%m-%dT%H:%M:%S", localtime (&now));
 
-	  fprintf(f, "%s %s\n", timestamp, uri);
+	  fprintf(f, "%s,<---%s--->,%s\n", timestamp, name, uri);
 	  fclose(f);
   }
 }
@@ -1605,7 +1608,6 @@ progresschanged(WebKitWebView *v, GParamSpec *ps, Client *c)
 	c->progress = webkit_web_view_get_estimated_load_progress(c->view) *
 	              100;
 	updatetitle(c);
-  updatehistory(c);
 }
 
 void

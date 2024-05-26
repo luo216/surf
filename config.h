@@ -5,7 +5,7 @@ static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
-static char *historyfile    = "~/.surf/history.txt";
+static char *historyfile    = "~/.surf/history.csv";
 static char *dldir          = "~/Downloads/";
 static char *bilidir        = "~/.surf/bilidir/";
 static char *audiodir       = "~/Music/";
@@ -118,7 +118,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
              "prop=\"$(printf '%b' \"$(xprop -id $1 "r" " \
              "| sed -e 's/^"r"(UTF8_STRING) = \"\\(.*\\)\"/\\1/' " \
              "      -e 's/\\\\\\(.\\)/\\1/g')\" " \
-             "| tac ~/.surf/history.txt | awk '{print $2}' | sed 's/.*https*:\\/\\/\\(www\\.\\)\\?//' | rofi -dmenu -p '"p"' -w $1 )\" " \
+             "| tac ~/.surf/history.csv | awk -F, '{print $2,$3}' | rofi -dmenu -p '"p"' -w $1 | awk -F'--->' '{print $2}' | sed 's/.*https*:\\/\\/\\(www\\.\\)\\?//' )\" " \
              "&& xprop -id $1 -f "s" 8u -set "s" \"$prop\"", \
              "surf-setprop", winid, NULL \
         } \
