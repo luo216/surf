@@ -45,7 +45,7 @@ static Parameter defconfig[ParameterLast] = {
 	[FontSize]            =       { { .i = 12 },    },
 	[FrameFlattening]     =       { { .i = 0 },     },
 	[Geolocation]         =       { { .i = 0 },     },
-	[HideBackground]      =       { { .i = 0 },     },
+	[HideBackground]      =       { { .i = 1 },     },
 	[Inspector]           =       { { .i = 0 },     },
 	[Java]                =       { { .i = 1 },     },
 	[JavaScript]          =       { { .i = 1 },     },
