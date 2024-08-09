@@ -3,11 +3,11 @@ function translate_all() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'https://res.zvo.cn/translate/translate.js';
-  script.onload = script.onreadystatechange = function() {
+  script.onload = script.onreadystatechange = function () {
     translate.storage.set('to', '');
 
     //SELECT 修改 onchange 事件
-    translate.selectLanguageTag.selectOnChange = function(event) {
+    translate.selectLanguageTag.selectOnChange = function (event) {
       //判断是否是第一次翻译，如果是，那就不用刷新页面了。 true则是需要刷新，不是第一次翻译
       var isReload = translate.to != null && translate.to.length > 0;
       if (isReload) {
@@ -28,7 +28,7 @@ function translate_all() {
     document.getElementById('translate').style.top = '50px';
     document.getElementById('translate').style.zIndex = '9999999999999';
 
-    setInterval(function() {
+    setInterval(function () {
       try {
         if (document.getElementById('translateSelectLanguage') == null) {
           return;
@@ -43,4 +43,9 @@ function translate_all() {
   head.appendChild(script);
 }
 
-setTimeout(translate_all, 10)
+// 监听键盘
+window.addEventListener('keydown', function (event) {
+  if (event.ctrlKey && event.key == 's') {
+    translate_all();
+  }
+})
